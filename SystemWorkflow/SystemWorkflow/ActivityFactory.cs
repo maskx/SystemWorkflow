@@ -46,9 +46,9 @@ namespace maskx.SystemWorkflow
         /// <param name="id">The workflow id</param>
         /// <param name="reader">The XamlXmlReader defined workflow </param>
         /// <returns>The Compiled DynamicActivity</returns>
-        public static Activity Create(string id, XamlXmlReader reader, bool safe = true)
+        static Activity Create(string id, XamlXmlReader reader, bool safe = true)
         {
-            if (safe)
+            if (!safe)
                 return GetActivityFromCache(id, reader);
             var activity = ActivityXamlServices.Load(reader);
             CompileExpressions(id, activity);
@@ -75,7 +75,7 @@ namespace maskx.SystemWorkflow
                 {
                     if (_ActivityCache.TryGetValue(id, out act))
                         return act;
-                    act = Create(id, reader, false);
+                    act = Create(id, reader, true);
                     _ActivityCache.TryAdd(id, act);
                 }
             }
