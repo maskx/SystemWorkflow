@@ -27,6 +27,13 @@ namespace maskx.SystemWorkflow.Tests
                     GetFile = (id) =>
                     {
                         return System.IO.Path.Combine(Environment.CurrentDirectory, "../../wf", id + ".xaml");
+                    },
+                    GetContext = (r) =>
+                    {
+                        return new WFJson(new
+                        {
+                            User = r.GetOwinContext().Request.User
+                        });
                     }
                 });
             builder.UseWebApi(configuration);
@@ -45,6 +52,14 @@ namespace maskx.SystemWorkflow.Tests
             {
                 return Post(string.Format(tpl, id), arg);
             }
+        }
+        [TestMethod]
+        public void StandardTest()
+        {
+            var rtv = InvokeWF("standard", new { a = 2, b = 3 });
+            var j = WFJson.Parse(rtv);
+            //c=(a+b)*100
+            Assert.AreEqual(j.V<int>("c"), 500);
         }
     }
 }

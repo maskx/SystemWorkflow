@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 
 namespace maskx.SystemWorkflow
 {
@@ -23,5 +24,6 @@ namespace maskx.SystemWorkflow
         /// When set this, GetFile property will not work
         /// </summary>
         public Func<string, Stream> GetStream { get; set; }
+        public Func<HttpRequestMessage,WFJson> GetContext { get; set; }
     }
 }

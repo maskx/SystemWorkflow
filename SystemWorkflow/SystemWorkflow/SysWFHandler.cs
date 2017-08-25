@@ -35,7 +35,7 @@ namespace maskx.SystemWorkflow
                 string jsonContent = content.ReadAsStringAsync().Result;
                 dynamic b = WFJson.Parse(jsonContent);
                 var rtv = invoker.Invoke(new Dictionary<string, object>() {
-                            { "context",b },
+                            { "context",_Setting.GetContext(request) },
                             { "data",b }
                         });
                 return request.CreateResponse(HttpStatusCode.OK, (rtv["output"] as WFJson)._JToken);
